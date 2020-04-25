@@ -77,6 +77,7 @@ void iterative_reverse(Deque *deque);
 // Reverse the Deque using a recursive approach
 void recursive_reverse(Deque *deque);
 
+// switches the prev and next on the node and recurses on the next node
 void switch_links(Node *node);
 
 // Split the Deque given a critical value k, such that the Deque contains
@@ -85,15 +86,12 @@ void switch_links(Node *node);
 //
 // Within the two parts of the array (>= k and < k) the elements should
 // be in their original order.
-//
-// This function must run in linear time.
-
 void split_deque(Deque *deque, int k);
 
-// TODO: Add any other functions you might need for your Deque module
-
+// Checks if any node in deque has specified data value
 int contain_in_deque(Deque *deque, Data data);
 
+// Checks if linked list is empty
 int is_empty(Deque *deque);
 
 #endif

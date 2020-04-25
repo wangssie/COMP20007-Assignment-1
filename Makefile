@@ -34,4 +34,4 @@ util.o: util.c util.h
 
 clean:
 	rm *.o
-	rm a1.exe
+	rm a1.exes
