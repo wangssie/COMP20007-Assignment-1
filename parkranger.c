@@ -47,7 +47,8 @@ bool is_single_run_possible() {
 
   // check if any node was able to pass every other node before reaching it
   // AKA node_count = n-1
-  for (int i=0; i<n; i++) {
+  int i=0;
+  for (i; i<n; i++) {
     // if yes: the trees can be trimmed in one run
     if (*(node_count_list+i)== n-1) {
       free(node_count_list);
@@ -66,7 +67,8 @@ bool is_single_run_possible() {
 Tree **create_adjacency_list(int n) {
   Tree **array = (Tree**)malloc(sizeof(Tree*)*n);
   assert(array);
-  for (int i=0; i<n; i++) {
+  int i=0;
+  for (i; i<n; i++) {
     Tree *subarray = (Tree*)malloc(sizeof(Tree)*(n-1));
     assert(subarray);
     *(array+i)=subarray;
@@ -83,7 +85,8 @@ int *create_n_length_list(int n) {
 
 // Initialise all elements in array to int x
 void initialise_array_to_x(int *array, int length, int x) {
-  for (int i=0; i<length; i++) {
+  int i=0;
+  for (i; i<length; i++) {
     *(array+i) = x;
   }
 }
@@ -93,7 +96,8 @@ void initialise_array_to_x(int *array, int length, int x) {
 void update_adjacency_list(Tree **adj_list, int *adj_count_list, int edge_count) {
   Tree node, adj_node;
   int adj_count;
-  for (int i=0; i<edge_count; i++) {
+  int i=0;
+  for (i; i<edge_count; i++) {
     // read in current node -> adj node
     scanf("%d %d\n", &node, &adj_node);
     // check how many nodes the current node is adjacent to so far
@@ -123,7 +127,8 @@ void update_node_count_list(Tree **adj_list, int *adj_count_list, int *node_coun
     curr_node = deque_pop(queue);
     curr_node_count = *(node_count_list+curr_node);
     // for each of the current node's adjacent nodes
-    for (int i=0; i< *(adj_count_list+curr_node); i++) {
+    int i=0;
+    for (i; i< *(adj_count_list+curr_node); i++) {
       adj_node = *(*(adj_list+curr_node)+i);
       adj_node_count = *(node_count_list+adj_node);
 
@@ -147,7 +152,8 @@ void update_node_count_list(Tree **adj_list, int *adj_count_list, int *node_coun
 // Free the memory associated with an adjacency list
 void free_adjacency_list(Tree **adj_list, int n) {
   // free all the subarrays
-  for (int i=0; i<n; i++) {
+  int i=0;
+  for (i; i<n; i++) {
     free(*(adj_list+i));
   }
   free(adj_list);
@@ -156,11 +162,12 @@ void free_adjacency_list(Tree **adj_list, int n) {
 // Print out the adjacency list
 // Format for each node (in newline): node x is adjacent to: x1 x2 ...
 void print_adj_list(Tree **adj_list, int *adj_count, int n) {
-  int count;
-  for (int i=0; i<n; i++) {
+  int count, i=0, j=0;
+  for (i; i<n; i++) {
     count = *(adj_count+i);
     printf("node %d is adjacent to: ", i);
-    for (int j=0; j<count; j++) {
+    j=0;
+    for (j; j<count; j++) {
       printf("%d ", *(*(adj_list+i)+j));
     }
     printf("\n");
@@ -171,7 +178,8 @@ void print_adj_list(Tree **adj_list, int *adj_count, int n) {
 // Format: [ a1 a2 ... an ]
 void print_list(int *list, int n) {
   printf("[ ");
-  for (int i=0; i<n; i++) {
+  int i=0;
+  for (i; i<n; i++) {
     printf("%d ", *(list+i));
   }
   printf("]\n");

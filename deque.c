@@ -173,7 +173,8 @@ void iterative_reverse(Deque *deque) {
 	Node *tempnode;
 	// iterate through each link in linked list
 	// switch prev and next node links
-	for (int i = 0; i < deque->size; i++) {
+	int i=0;
+	for (i; i < deque->size; i++) {
 		tempnode = node -> prev;
 		node -> prev = node -> next;
 		node -> next = tempnode;
@@ -229,7 +230,8 @@ void split_deque(Deque *deque, int k) {
 
 	// Iterate through the entire linked list, starting from the top
 	Node *curr = deque->top;
-	for (int i=0; i<deque->size; i++) {
+	int i=0;
+	for (i; i<deque->size; i++) {
 		// IF node is greater or equal to k, put in top group
 		if (curr->data >=k) {
 			// the first greater_or_equal_to_k node in the list
