@@ -13,16 +13,17 @@
 #include "deque.h"
 #include "util.h"
 
-typedef int Vertex;
+typedef int Tree;
 
 bool is_single_run_possible();
-Vertex **create_adjacency_list(int n);
+Tree **create_adjacency_list(int n);
 int *create_n_length_list(int n);
+void update_adjacency_list(Tree **adj_list, int *adj_count_list, int edge_count);
 void initialise_array_to_x(int *array, int length, int x);
-void print_adj_list(Vertex **adj_list, int *adj_count, int n);
+void print_adj_list(Tree **adj_list, int *adj_count, int n);
 void print_list(int *list, int n);
-void update_node_count_list(Vertex **adj_list, int *adj_count_list, int *node_count_list);
-void free_adjacency_list(Vertex **adj_list, int n);
+void update_node_count_list(Tree **adj_list, int *adj_count_list, int *node_count_list);
+void free_adjacency_list(Tree **adj_list, int n);
 
 // This function must read in a ski slope map and determine whether or not
 // it is possible for the park ranger to trim all of the trees on the ski slope

@@ -194,15 +194,19 @@ void recursive_reverse(Deque *deque) {
 	deque -> bottom = tempnode;
 }
 
-// Own function
+// Switches the next and prev of current node
+// Repeats on the next node (which is now the prev node)
 void switch_links(Node *node) {
+	// if node is NULL, end of linked list
 	if (node == NULL) {
 		return;
 	}
 	else {
+		// switch prev and next
 		Node *tempnode = node -> prev;
 		node -> prev = node -> next;
 		node -> next = tempnode;
+		// go to the next node (which is now the prev node)
 		return switch_links(node -> prev);
 	}
 }
@@ -215,57 +219,66 @@ void switch_links(Node *node) {
 // be in their original order.
 //
 // This function must run in linear time.
+
 void split_deque(Deque *deque, int k) {
 	Node *greater_first_node=NULL,
 			 *greater_last_node=NULL,
 			 *less_first_node=NULL,
 			 *less_last_node=NULL;
 
+
+	// Iterate through the entire linked list, starting from the top
 	Node *curr = deque->top;
 	for (int i=0; i<deque->size; i++) {
-		// greater or equal to k, put in top group
+		// IF node is greater or equal to k, put in top group
 		if (curr->data >=k) {
-			// first greater than equal to node
+			// the first greater_or_equal_to_k node in the list
 			if (greater_first_node == NULL) {
 				greater_first_node = curr;
 			}
+			// otherwise, it is the latest greater_or_equal_to_k node
 			else {
 			greater_last_node -> next = curr;
 			curr -> prev = greater_last_node;
 		}
 		greater_last_node = curr;
-		// printf("greater_first_node: %d\ngreater_last_node: %d\n", greater_first_node->data, greater_last_node->data);
 		}
-		// less than k, put in bottom group
+		// ELSE if node is less than k, put in bottom group
 		else {
-			// first less than node
+			// the first less_than_k node in the list
 			if (less_first_node == NULL) {
 				less_first_node = curr;
 			}
+			// otherwise, it is the latest less_than_k node
 			else {
 			less_last_node -> next = curr;
 			curr->prev = less_last_node;
 		}
 		less_last_node = curr;
-		// printf("less_first_node: %d\nless_last_node: %d\n", less_first_node->data, less_last_node->data);
 		}
+		// go through process for the next node in the linked list
 		curr = curr -> next;
 }
 	// join the two groups in the middle
+	// top group LHS, bottom group RHS
+
+	// case 1: both top and bot groups have nodes
+	// connect them in the middle
 	if (less_last_node != NULL && greater_first_node !=NULL) {
 		less_first_node -> prev = greater_last_node;
 		greater_last_node -> next = less_first_node;
 	}
-
+	// case 2: nodes all in top or bot group
+	// no need to connect in the middle
+	// But, need to ensure deque's top and bottom are correctly assigned
 	deque -> top = (greater_first_node != NULL? greater_first_node:less_first_node);
 	deque -> bottom = (less_last_node != NULL? less_last_node : greater_last_node);
 	deque -> top -> prev = NULL;
 	deque -> bottom -> next = NULL;
 }
 
-// TODO: Add any other functions you might need for your Deque module
-
-// searches for data in linked list
+// Functions used in parkranger.c
+// Searches for data in linked list
 int contain_in_deque(Deque *deque, Data data) {
   Node *node = deque-> top;
   while (node!=NULL) {
@@ -277,7 +290,7 @@ int contain_in_deque(Deque *deque, Data data) {
   return 0;
 }
 
-// checks if queue is empty
+// Checks if queue is empty
 int is_empty(Deque *deque) {
 	if (deque->size==0) {
 			return 1;

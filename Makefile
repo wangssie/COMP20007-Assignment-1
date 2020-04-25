@@ -10,13 +10,13 @@ CFLAGS=-Wall -Wno-comment
 a1: main.o deque.o parkranger.o util.o
 	gcc $(CFLAGS) -o a1 main.o deque.o parkranger.o util.o
 
-main.o: main.c deque.h util.h
+main.o: main.c deque.h util.h parkranger.h
 	gcc $(CFLAGS) -c main.c
 
 deque.o: deque.c deque.h util.h
 	gcc $(CFLAGS) -c deque.c
 
-parkranger.o: parkranger.c parkranger.h util.h
+parkranger.o: parkranger.c parkranger.h util.h deque.h
 	gcc $(CFLAGS) -c parkranger.c
 
 util.o: util.c util.h
