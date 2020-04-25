@@ -11,6 +11,26 @@
 
 #include <stdbool.h>
 
+typedef int vertex_t;
+typedef struct node node_t;
+typedef struct graph graph_t;
+
+struct node {
+  vertex_t vertex;
+  int adj_count;
+  node_t **adj_list;
+};
+
+struct graph {
+  int vertex_count;
+  int edge_count;
+  node_t **vertex_list;
+};
+
+bool is_single_run_possible();
+
+graph_t *new_graph(void);
+
 // This function must read in a ski slope map and determine whether or not
 // it is possible for the park ranger to trim all of the trees on the ski slope
 // in a single run starting from the top of the mountain.
@@ -50,9 +70,9 @@
 //  - Run the algorithm you have designed to solve this problem
 //  - Do any clean up required (e.g., free allocated memory)
 //  - Return `true` or `false` (included in the stdbool.h library)
-//
+//t
 // For full marks your algorithm must run in O(n + m) time.
-bool is_single_run_possible();
+
 
 // TODO: Add any additional functions or types required to solve this problem.
 

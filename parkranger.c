@@ -8,6 +8,8 @@
 
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
 
 #include "parkranger.h"
 #include "util.h"
@@ -53,10 +55,49 @@
 //  - Return `true` or `false` (included in the stdbool.h library)
 //
 // For full marks your algorithm must run in O(n + m) time.
+
+
 bool is_single_run_possible() {
-  // You should remove this line and replace it with your own code:
-  exit_with_error("is_single_run_possible not implemented");
+
+  // read in data from stdin
+  // store data in list
+  // free allocated memory
+  // return true or false
+
   return false;
 }
 
 // TODO: Add any additional functions or types required to solve this problem.
+
+// creates a structure for the new graph
+graph_t *new_graph(void) {
+  graph_t *graph = malloc(sizeof(*graph));
+  assert(graph);
+  int vertex_count, edge_count;
+  scanf("%d %d\n", &vertex_count, &edge_count);
+  graph->vertex_count = vertex_count;
+  graph->edge_count = edge_count;
+  return graph;
+}
+
+// creates an adjacency list
+void add_vertices(graph_t *graph) {
+
+
+}
+
+void free_graph(graph_t *graph) {
+  node_t *node;
+  // free all the nodes vertices
+  for (int i=0; i<graph->vertex_count; i++) {
+      node = *(vertex_list+i);
+      free_node(node);
+  }
+  // free the graph
+  free(graph);
+}
+
+void free_node(node_t *node) {
+  free(node->adj_list);
+  free(node);
+}
