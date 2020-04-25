@@ -13,6 +13,9 @@
 
 #include "parkranger.h"
 #include "util.h"
+#include "deque.h"
+
+#define MOUNTAIN_NODE 0
 
 // This function must read in a ski slope map and determine whether or not
 // it is possible for the park ranger to trim all of the trees on the ski slope
@@ -60,44 +63,139 @@
 bool is_single_run_possible() {
 
   // read in data from stdin
-  // store data in list
-  // free allocated memory
-  // return true or false
+  int n, m;
+  scanf("%d %d\n", &n, &m);
+  // add the 0 node
+  n++;
+  // create our adjacency list, adjacency count list and vertex node count list
+  Vertex **adj_list = create_adjacency_list(n);
+  int *adj_count_list = create_n_length_list(n);
+  int *node_count_list = create_n_length_list(n);
 
+  // initialise arrays so elements = -1
+  initialise_array_to_x(adj_count_list, n, 0);
+  initialise_array_to_x(node_count_list, n, 0);
+
+  // store data in list
+  Vertex node, adj_node;
+  int adj_count;
+  for (int i=0; i<m; i++) {
+    // read in current node -> adj node
+    scanf("%d %d\n", &node, &adj_node);
+    // check how many nodes the current node is adjacent to so far
+    adj_count = *(adj_count_list+node);
+    // add adj node to the current node's adjacency list
+    *(*(adj_list+node)+adj_count) = adj_node;
+    // update current node's adjacency count by 1
+    *(adj_count_list+node)+=1;
+  }
+
+  // update the max amount of nodes that precede a node
+  update_node_count_list(adj_list, adj_count_list, node_count_list);
+
+  // free allocated memory
+  free_adjacency_list(adj_list, n);
+  free(adj_count_list);
+
+  // check if the node count of any node is n-1
+  for (int i=0; i<n; i++) {
+    if (*(node_count_list+i)== n-1) {
+      free(node_count_list);
+      return true;
+    }
+  }
+
+  free(node_count_list);
   return false;
 }
+
+Vertex **create_adjacency_list(int n) {
+  Vertex **array = (Vertex**)malloc(sizeof(Vertex*)*n);
+  assert(array);
+  for (int i=0; i<n; i++) {
+    Vertex *subarray = (Vertex*)malloc(sizeof(Vertex)*(n-1));
+    assert(subarray);
+    *(array+i)=subarray;
+  }
+  return array;
+}
+
+int *create_n_length_list(int n) {
+  int *array = (int*)malloc(sizeof(int)*n);
+  assert(array);
+  return array;
+}
+
+void initialise_array_to_x(int *array, int length, int x) {
+  for (int i=0; i<length; i++) {
+    *(array+i) = x;
+  }
+}
+
+void update_node_count_list(Vertex **adj_list, int *adj_count_list, int *node_count_list) {
+  // create queue
+  Deque *queue = new_deque();
+  // insert mountain node in the queue
+  deque_insert(queue, MOUNTAIN_NODE);
+
+  Vertex curr_node, adj_node;
+  int curr_node_count, adj_node_count;
+
+  // while the queue is empty
+  while (!is_empty(queue)) {
+    // pop the first node from queue and make it our current node
+    curr_node = deque_pop(queue);
+    curr_node_count = *(node_count_list+curr_node);
+    // for each of the current node's adjacent nodes
+    for (int i=0; i< *(adj_count_list+curr_node); i++) {
+      adj_node = *(*(adj_list+curr_node)+i);
+      adj_node_count = *(node_count_list+adj_node);
+
+      // make adjacent node's node count the max between
+      // itself OR
+      // current node's node count + 1
+      if (adj_node_count < curr_node_count+1) {
+        *(node_count_list+adj_node)=curr_node_count+1;
+        // add adjacent node to queue if not in queue already
+        if (!contain_in_deque(queue, adj_node)) {
+          deque_insert(queue, (Data)adj_node);
+        }
+      }
+    }
+  }
+  // free queue
+  free_deque(queue);
+}
+
+void print_adj_list(Vertex **adj_list, int *adj_count, int n) {
+  int count;
+  for (int i=0; i<n; i++) {
+    count = *(adj_count+i);
+    printf("node %d is adjacent to: ", i);
+    for (int j=0; j<count; j++) {
+      printf("%d ", *(*(adj_list+i)+j));
+    }
+    printf("\n");
+  }
+}
+
+void print_list(int *list, int n) {
+  printf("[ ");
+  for (int i=0; i<n; i++) {
+    printf("%d ", *(list+i));
+  }
+  printf("]\n");
+}
+
+void free_adjacency_list(Vertex **adj_list, int n) {
+  // free all the subarrays
+  for (int i=0; i<n; i++) {
+    free(*(adj_list+i));
+  }
+  free(adj_list);
+}
+
 
 // TODO: Add any additional functions or types required to solve this problem.
 
 // creates a structure for the new graph
-graph_t *new_graph(void) {
-  graph_t *graph = malloc(sizeof(*graph));
-  assert(graph);
-  int vertex_count, edge_count;
-  scanf("%d %d\n", &vertex_count, &edge_count);
-  graph->vertex_count = vertex_count;
-  graph->edge_count = edge_count;
-  return graph;
-}
-
-// creates an adjacency list
-void add_vertices(graph_t *graph) {
-
-
-}
-
-void free_graph(graph_t *graph) {
-  node_t *node;
-  // free all the nodes vertices
-  for (int i=0; i<graph->vertex_count; i++) {
-      node = *(vertex_list+i);
-      free_node(node);
-  }
-  // free the graph
-  free(graph);
-}
-
-void free_node(node_t *node) {
-  free(node->adj_list);
-  free(node);
-}

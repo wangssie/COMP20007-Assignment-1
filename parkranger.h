@@ -10,26 +10,19 @@
 #define PARKRANGER_H
 
 #include <stdbool.h>
+#include "deque.h"
+#include "util.h"
 
-typedef int vertex_t;
-typedef struct node node_t;
-typedef struct graph graph_t;
-
-struct node {
-  vertex_t vertex;
-  int adj_count;
-  node_t **adj_list;
-};
-
-struct graph {
-  int vertex_count;
-  int edge_count;
-  node_t **vertex_list;
-};
+typedef int Vertex;
 
 bool is_single_run_possible();
-
-graph_t *new_graph(void);
+Vertex **create_adjacency_list(int n);
+int *create_n_length_list(int n);
+void initialise_array_to_x(int *array, int length, int x);
+void print_adj_list(Vertex **adj_list, int *adj_count, int n);
+void print_list(int *list, int n);
+void update_node_count_list(Vertex **adj_list, int *adj_count_list, int *node_count_list);
+void free_adjacency_list(Vertex **adj_list, int n);
 
 // This function must read in a ski slope map and determine whether or not
 // it is possible for the park ranger to trim all of the trees on the ski slope

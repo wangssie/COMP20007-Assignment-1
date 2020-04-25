@@ -264,3 +264,23 @@ void split_deque(Deque *deque, int k) {
 }
 
 // TODO: Add any other functions you might need for your Deque module
+
+// searches for data in linked list
+int contain_in_deque(Deque *deque, Data data) {
+  Node *node = deque-> top;
+  while (node!=NULL) {
+    if (node->data == data) {
+      return 1;
+    }
+		node = node->next;
+  }
+  return 0;
+}
+
+// checks if queue is empty
+int is_empty(Deque *deque) {
+	if (deque->size==0) {
+			return 1;
+	}
+	return 0;
+}

@@ -92,4 +92,8 @@ void split_deque(Deque *deque, int k);
 
 // TODO: Add any other functions you might need for your Deque module
 
+int contain_in_deque(Deque *deque, Data data);
+
+int is_empty(Deque *deque);
+
 #endif
